@@ -4,20 +4,58 @@
  */
 package com.siba.view;
 
+import java.awt.CardLayout;
+
 /**
  *
  * @author shana
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Dashboard
-     */
+    CardLayout layout;
+    
     public Dashboard() {
         initComponents();
         setLocationRelativeTo(null);
+        
+        layout = new CardLayout();
+        
+        displayPanel.setLayout(layout);
+        displayPanel.add("Home", new Home());
+        displayPanel.add("Products", new Product());       
+        displayPanel.add("Purchase", new Purchase());      
+        displayPanel.add("Sales", new Sales());        
+        displayPanel.add("Suppliers", new Supplier());       
+        displayPanel.add("Users", new Users());
+        displayPanel.add("Customers", new Customer());
+        displayPanel.add("Stocks", new CurrentStock());
     }
 
+    public void addHomePage(){
+        layout.show(displayPanel, "Home");
+    }
+    public void addProductPage() {
+        layout.show(displayPanel, "Products");
+    }
+    public void addPurchasePage() {
+        layout.show(displayPanel, "Purchase");
+    }
+    public void addSalesPage() {
+        layout.show(displayPanel, "Sales");
+    }
+    public void addSuppliersPage() {
+        layout.show(displayPanel, "Suppliers");
+    }
+    public void addUsersPage() {
+        layout.show(displayPanel, "Users");
+    }
+    public void addCustomersPage() {
+        layout.show(displayPanel, "Customers");
+    }
+    public void addStocksPage() {
+        layout.show(displayPanel, "Stocks");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,14 +74,15 @@ public class Dashboard extends javax.swing.JFrame {
         salesButton = new javax.swing.JButton();
         usersButton = new javax.swing.JButton();
         purchaseButton = new javax.swing.JButton();
-        logsButton = new javax.swing.JButton();
         menuButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        displayPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         navPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        homeButton.setText("Home");
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,14 +146,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        logsButton.setText("User Logs");
-        logsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        logsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logsButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout navPanelLayout = new javax.swing.GroupLayout(navPanel);
         navPanel.setLayout(navPanelLayout);
         navPanelLayout.setHorizontalGroup(
@@ -129,14 +160,13 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(suppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(salesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(usersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(logsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         navPanelLayout.setVerticalGroup(
             navPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navPanelLayout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
+                .addContainerGap(115, Short.MAX_VALUE)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(prodButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,9 +182,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(usersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(logsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
         );
+
+        getContentPane().add(navPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 70, -1, -1));
 
         menuButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         menuButton.setText("MENU");
@@ -164,45 +195,20 @@ public class Dashboard extends javax.swing.JFrame {
                 menuButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(menuButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 6, 125, 52));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 823, Short.MAX_VALUE)
+        javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
+        displayPanel.setLayout(displayPanelLayout);
+        displayPanelLayout.setHorizontalGroup(
+            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 878, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        displayPanelLayout.setVerticalGroup(
+            displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(navPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(menuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(menuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(navPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(22, 22, 22))
-        );
+        getContentPane().add(displayPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 70, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -213,40 +219,36 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         //dispose();
-        //addHomePage();
+        addHomePage();
     }//GEN-LAST:event_homeButtonActionPerformed
 
     private void prodButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodButtonActionPerformed
-        //addProdPage();
+        addProductPage();
     }//GEN-LAST:event_prodButtonActionPerformed
 
     private void stockButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockButtonActionPerformed
-        //addStockPage();
+        addStocksPage();
     }//GEN-LAST:event_stockButtonActionPerformed
 
     private void custButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custButtonActionPerformed
-        //addCustPage();
+        addCustomersPage();
     }//GEN-LAST:event_custButtonActionPerformed
 
     private void suppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppButtonActionPerformed
-        //addSuppPage();
+        addSuppliersPage();
     }//GEN-LAST:event_suppButtonActionPerformed
 
     private void salesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesButtonActionPerformed
-        //addSalesPage();
+        addSalesPage();
     }//GEN-LAST:event_salesButtonActionPerformed
 
     private void usersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersButtonActionPerformed
-        //addUsersPage();
+        addUsersPage();
     }//GEN-LAST:event_usersButtonActionPerformed
 
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
-        //addPurchasePage();
+        addPurchasePage();
     }//GEN-LAST:event_purchaseButtonActionPerformed
-
-    private void logsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsButtonActionPerformed
-        //addLogsPage();
-    }//GEN-LAST:event_logsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,9 +287,8 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton custButton;
+    private javax.swing.JPanel displayPanel;
     private javax.swing.JButton homeButton;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton logsButton;
     private javax.swing.JButton menuButton;
     private javax.swing.JPanel navPanel;
     private javax.swing.JButton prodButton;
