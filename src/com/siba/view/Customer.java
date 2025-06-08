@@ -72,6 +72,11 @@ public class Customer extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableCustomers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCustomersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCustomers);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 85, 459, 438));
@@ -267,6 +272,19 @@ public class Customer extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tableCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCustomersMouseClicked
+        int row = tableCustomers.getSelectedRow();
+        int col = tableCustomers.getColumnCount();
+        Object[] data = new Object[col];
+
+        for (int i=0; i<col; i++)
+            data[i] = tableCustomers.getValueAt(row, i);
+        txtCustomerCode.setText((String) data[0]);
+        txtFullName.setText((String) data[1]);
+        txtLocation.setText((String) data[2]);
+        txtContact.setText((String) data[3]);
+    }//GEN-LAST:event_tableCustomersMouseClicked
 
     public void loadDataSet() {
         try {

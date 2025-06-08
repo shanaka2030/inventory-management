@@ -4,6 +4,9 @@
  */
 package com.siba.view;
 
+import com.siba.DAO.ProductDAO;
+import java.sql.SQLException;
+
 /**
  *
  * @author shana
@@ -15,8 +18,14 @@ public class CurrentStock extends javax.swing.JPanel {
      */
     public CurrentStock() {
         initComponents();
+        loadDataSet();
     }
 
+    
+    public void loadDataSet() {
+        ProductDAO productDAO = new ProductDAO();
+        tableStock.setModel(productDAO.buildTableModel(productDAO.getCurrentStockInfo()));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,7 +37,7 @@ public class CurrentStock extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableStock = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -37,7 +46,7 @@ public class CurrentStock extends javax.swing.JPanel {
         jLabel1.setText("Current Stock");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -48,7 +57,7 @@ public class CurrentStock extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableStock);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 57, 811, 480));
 
@@ -62,6 +71,6 @@ public class CurrentStock extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableStock;
     // End of variables declaration//GEN-END:variables
 }
