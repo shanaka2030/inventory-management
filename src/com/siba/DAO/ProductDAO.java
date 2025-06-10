@@ -595,6 +595,44 @@ public class ProductDAO {
             throwables.printStackTrace();
         }
     }
+    
+    public void editSoldStock(String code, int quantity) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            String query = "SELECT * FROM currentstock WHERE productcode='" +code+ "'";
+            conn = connection.getConnection();
+            statement = conn.prepareStatement(query);
+            result = statement.executeQuery(query);
+            if(result.next()) {
+                String query2 = "UPDATE currentstock SET quantity=quantity+? WHERE productcode=?";
+                statement = conn.prepareStatement(query2);
+                statement.setInt(1, quantity);
+                statement.setString(2, code);
+                statement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    
+    public void deleteSaleDAO(int ID) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        try {
+            String query = "DELETE FROM salesinfo WHERE salesID=?";
+            conn = connection.getConnection();
+            statement = conn.prepareStatement(query);
+            statement.setInt(1, ID);
+            statement.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Transaction has been removed.");
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        deleteStock();
+    }
 //    public ResultSet getCurrentStockInfo() {
 //        String query = """
 //                SELECT currentstock.productcode, products.productname,
@@ -666,7 +704,9 @@ public class ProductDAO {
                 ORDER BY salesid
                 """;
 
-        try (Connection conn = connection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+        try{
+            Connection conn = connection.getConnection(); 
+            PreparedStatement stmt = conn.prepareStatement(query);
             return stmt.executeQuery();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error retrieving sales information", e);
@@ -721,6 +761,34 @@ public class ProductDAO {
         }
     }
 
+    public ResultSet getSalesSearch(String searchText) {
+        
+        if (!isValidString(searchText)) {
+            return null;
+        }
+        String query = "SELECT salesid,salesinfo.productcode,productname,\n" +
+                    "                    salesinfo.quantity,revenue,users.name AS Sold_by\n" +
+                    "                    FROM salesinfo INNER JOIN products\n" +
+                    "                    ON salesinfo.productcode=products.productcode\n" +
+                    "                    INNER JOIN users\n" +
+                    "                    ON salesinfo.soldby=users.username\n" +
+                    "                    INNER JOIN customers\n" +
+                    "                    ON customers.customercode=salesinfo.customercode\n" +
+                    "WHERE salesinfo.productcode LIKE ? OR productname LIKE ? " +
+                    "OR users.name LIKE ? OR customers.fullname LIKE ? ORDER BY salesid;";
+          try (Connection conn = connection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            String likeParam = "%" + searchText.trim() + "%";
+            stmt.setString(1, likeParam);
+            stmt.setString(2, likeParam);
+            stmt.setString(3, likeParam);
+            stmt.setString(4, likeParam);
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error searching products", e);
+            return null;
+        }  
+        
+    }
     // Validation methods
     private boolean validateProductDTO(ProductDTO productDTO) {
         return productDTO != null
