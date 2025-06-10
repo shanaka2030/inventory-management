@@ -47,6 +47,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Impact", 1, 36)); // NOI18N
         jLabel1.setText("Inventory Management System");
@@ -139,11 +140,9 @@ public class Login extends javax.swing.JFrame {
         userType = cmbUserType.getSelectedItem().toString();
         
         if(new UserService().checkLogin(username, password, userType)){
-            inTime = LocalDateTime.now();
-            userDTO.setInTime(String.valueOf(inTime));
             dispose();
-            //new Dashboard();
-            new Dashboard().setVisible(true);
+            new Dashboard(username, userType).setVisible(true);
+            //new Dashboard().setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Invalid username or password!");
         }

@@ -14,11 +14,19 @@ public class Dashboard extends javax.swing.JFrame {
 
     CardLayout layout;
     
-    public Dashboard() {
+    String userSelect;
+    String username;
+    String fullName;
+    
+    public Dashboard(String username, String userType) {
         initComponents();
         setLocationRelativeTo(null);
         
+        navPanel.setVisible(false);
         layout = new CardLayout();
+        
+        if("EMPLOYEE".equalsIgnoreCase(userType))
+            notForEmployee();
         
         displayPanel.setLayout(layout);
         displayPanel.add("Home", new Home());
@@ -74,15 +82,20 @@ public class Dashboard extends javax.swing.JFrame {
         salesButton = new javax.swing.JButton();
         usersButton = new javax.swing.JButton();
         purchaseButton = new javax.swing.JButton();
+        usersButton1 = new javax.swing.JButton();
         menuButton = new javax.swing.JButton();
         displayPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inventory Management System");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         navPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        homeButton.setText("Home");
+        homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/home.png"))); // NOI18N
+        homeButton.setText("          Home");
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +103,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        prodButton.setText("Products");
+        prodButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/products (1).png"))); // NOI18N
+        prodButton.setText("        Products");
         prodButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         prodButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,7 +112,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        stockButton.setText("Current Stock");
+        stockButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/inventory.png"))); // NOI18N
+        stockButton.setText("   Current Stock");
         stockButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         stockButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +121,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        custButton.setText("Customers");
+        custButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/customer.png"))); // NOI18N
+        custButton.setText("     Customers");
         custButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         custButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,7 +130,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        suppButton.setText("Suppliers");
+        suppButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/supplier.png"))); // NOI18N
+        suppButton.setText("      Suppliers");
         suppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +139,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        salesButton.setText("Sales");
+        salesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/sales.png"))); // NOI18N
+        salesButton.setText("          Sales");
         salesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         salesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +148,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        usersButton.setText("Users");
+        usersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/group.png"))); // NOI18N
+        usersButton.setText("          Users");
         usersButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,11 +157,21 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        purchaseButton.setText("Purchase");
+        purchaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/shopping-cart.png"))); // NOI18N
+        purchaseButton.setText("       Purchase");
         purchaseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
+            }
+        });
+
+        usersButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/logout (2).png"))); // NOI18N
+        usersButton1.setText("         Logout");
+        usersButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        usersButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usersButton1ActionPerformed(evt);
             }
         });
 
@@ -155,18 +184,19 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(navPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(homeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(prodButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(stockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(stockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(custButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(suppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(salesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(usersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(usersButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         navPanelLayout.setVerticalGroup(
             navPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navPanelLayout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(prodButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,13 +212,16 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(usersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(usersButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         getContentPane().add(navPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 70, -1, -1));
 
         menuButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        menuButton.setText("MENU");
+        menuButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/siba/UI/Icons/list.png"))); // NOI18N
+        menuButton.setText("      MENU");
         menuButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,14 +234,18 @@ public class Dashboard extends javax.swing.JFrame {
         displayPanel.setLayout(displayPanelLayout);
         displayPanelLayout.setHorizontalGroup(
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 878, Short.MAX_VALUE)
+            .addGap(0, 890, Short.MAX_VALUE)
         );
         displayPanelLayout.setVerticalGroup(
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         getContentPane().add(displayPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 70, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Impact", 1, 36)); // NOI18N
+        jLabel1.setText("I N V E N T O R Y  M A N A G E M E N T  S Y S T E M");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -250,45 +287,57 @@ public class Dashboard extends javax.swing.JFrame {
         addPurchasePage();
     }//GEN-LAST:event_purchaseButtonActionPerformed
 
+    private void usersButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersButton1ActionPerformed
+        dispose();
+        new Login().setVisible(true);
+        //System.exit(0);
+    }//GEN-LAST:event_usersButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Dashboard().setVisible(true);
+//            }
+//        });
+//    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
+    
+    public void notForEmployee(){
+        navPanel.remove(usersButton);
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton custButton;
     private javax.swing.JPanel displayPanel;
     private javax.swing.JButton homeButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton menuButton;
     private javax.swing.JPanel navPanel;
     private javax.swing.JButton prodButton;
@@ -297,5 +346,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton stockButton;
     private javax.swing.JButton suppButton;
     private javax.swing.JButton usersButton;
+    private javax.swing.JButton usersButton1;
     // End of variables declaration//GEN-END:variables
 }

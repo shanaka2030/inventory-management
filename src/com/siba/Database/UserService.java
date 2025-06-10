@@ -31,8 +31,8 @@ public class UserService {
             pstmt.setString(3, userType);
             
             try (ResultSet rs = pstmt.executeQuery()) {
-                //return rs.next();
-                return true;
+                return rs.next();
+                //return true;
             }
             
         } catch (SQLException e) {
