@@ -188,6 +188,35 @@ public class ProductDAO {
         return null;
     }
     
+    //Products data set retrieval for display
+    public ResultSet getQueryResult() {
+        Connection conn = null;
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        try {
+            String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products ORDER BY pid";
+            conn = connection.getConnection();
+            statement = conn.prepareStatement(query);
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return resultSet;
+    }
+    
+//    public ResultSet getQueryResult(){
+//        ResultSet result = null;
+//        String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products ORDER BY pid";
+//        
+//        try(Connection conn = connection.getConnection();
+//                PreparedStatement stmt = conn.prepareStatement(query)){
+//            result = stmt.executeQuery();
+//        }catch (SQLException e) {
+//            LOGGER.log(Level.SEVERE, "Error checking stock for product code: " + e);
+//        }
+//        return result;
+//    }
+    
     public boolean checkStock(String prodCode) {
         if (!isValidString(prodCode)) {
             LOGGER.warning("Invalid product code provided for stock check");
@@ -505,8 +534,31 @@ public class ProductDAO {
         }
     }
     
+//    public ResultSet getCurrentStockInfo() {
+//        String query = """
+//                SELECT currentstock.productcode, products.productname,
+//                currentstock.quantity, products.costprice, products.sellprice
+//                FROM currentstock INNER JOIN products
+//                ON currentstock.productcode = products.productcode
+//                WHERE currentstock.quantity > 0
+//                ORDER BY products.productname
+//                """;
+//        
+//        try (Connection conn = connection.getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(query)) {
+//            return stmt.executeQuery();
+//        } catch (SQLException e) {
+//            LOGGER.log(Level.SEVERE, "Error retrieving current stock information", e);
+//            return null;
+//        }
+//    }
+    
     public ResultSet getCurrentStockInfo() {
-        String query = """
+        Connection conn = null;
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        try {
+            String query = """
                 SELECT currentstock.productcode, products.productname,
                 currentstock.quantity, products.costprice, products.sellprice
                 FROM currentstock INNER JOIN products
@@ -514,14 +566,13 @@ public class ProductDAO {
                 WHERE currentstock.quantity > 0
                 ORDER BY products.productname
                 """;
-        
-        try (Connection conn = connection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            return stmt.executeQuery();
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error retrieving current stock information", e);
-            return null;
+            conn = connection.getConnection();
+            statement = conn.prepareStatement(query);
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return resultSet;
     }
     
     public ResultSet getPurchaseInfo() {

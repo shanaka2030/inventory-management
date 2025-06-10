@@ -18,7 +18,7 @@ public class CurrentStock extends javax.swing.JPanel {
      */
     public CurrentStock() {
         initComponents();
-        loadDataSet();
+        loadDataSet(); 
     }
 
     
